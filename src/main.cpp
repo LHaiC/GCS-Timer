@@ -44,7 +44,9 @@ int main(int argc, char* argv[]) {
 
     GPU_TIMER::design design(design_name, benchmark_path + design_name);
     double t = clock();
-    design.update_timing(20, argc > 2 && std::string(argv[2]) == "-CPU");
+    // time unit here is ps, while I use ns
+    // so for the 0.1 ns slew, the input should be set to 100
+    design.update_timing(100, argc > 2 && std::string(argv[2]) == "-CPU");
     output_log("update_timing: " + std::to_string((clock() - t) / CLOCKS_PER_SEC) + "s");
 
     return 0;

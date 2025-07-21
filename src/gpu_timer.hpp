@@ -422,10 +422,12 @@ void design::read_spef(string filename) {
         cur = find(tokens, "*CAP", cur) + 1;
         while(all_of(tokens[cur].begin(), tokens[cur].end(), ::isdigit)) {
             auto node = get_name(tokens[++cur]);
-            if(node_name2index.count(node) == 0) 
+            if(tokens[++cur][0]!='*') {
+                if(node_name2index.count(node) == 0) 
                 node_name2index[node] = net.n++, net.caps.resize(net.n);
-            net.caps[node_name2index[node]] = stod(tokens[++cur]) * CAP_SCALE;
-            cur++;
+                net.caps[node_name2index[node]] = stod(tokens[cur++]) * CAP_SCALE;
+            } else
+                cur += 2;
         }     
         cur = find(tokens, "*RES", cur) + 1;
         while(all_of(tokens[cur].begin(), tokens[cur].end(), ::isdigit)) {

@@ -2358,7 +2358,7 @@ __global__ void pass1(int stage_offset) {
             //if(threadIdx.x < n) cap_g = stage_cap_g[stage_node_acc_num[stage_num] * 2 + stage_node_acc_num[stage_id] + threadIdx.x];
         }
         /*if(iter == 0 && reach50_count * 4 >= m) {
-            iter++;
+            iter++;s
             inv += stage_node2_acc_num[stage_num];
             if(threadIdx.x < n) cap_g = stage_cap_g[stage_node_acc_num[stage_num] + stage_node_acc_num[stage_id] + threadIdx.x];
         }
@@ -2633,8 +2633,8 @@ void design::update_timing(double primary_input_slew, bool useCPU) {
             build_input_inv<<<BLOCK_NUM(2 * input_node2_acc_num_cpu[input_num]), THREAD_NUM>>>
                 (input_node2_acc_num, input_idx2net, input_node2_acc_num_cpu[input_num], input_node2_acc_num_cpu[input_num], 0, 2);
 
-            calc_delay_input_new<<<input_num, max_RC_node_count + 1, (max_RC_node_count + 1) * sizeof(double)>>> (input_node2_acc_num, input_node2_acc_num_cpu[input_num], 20, 0);
-            calc_delay_input_new<<<input_num, max_RC_node_count + 1, (max_RC_node_count + 1) * sizeof(double)>>> (input_node2_acc_num, input_node2_acc_num_cpu[input_num], 20, 1);
+            calc_delay_input_new<<<input_num, max_RC_node_count + 1, (max_RC_node_count + 1) * sizeof(double)>>> (input_node2_acc_num, input_node2_acc_num_cpu[input_num], primary_input_slew, 0);
+            calc_delay_input_new<<<input_num, max_RC_node_count + 1, (max_RC_node_count + 1) * sizeof(double)>>> (input_node2_acc_num, input_node2_acc_num_cpu[input_num], primary_input_slew, 1);
         }
         cudaDeviceSynchronize();
         assert(cudaGetLastError() == cudaSuccess);

@@ -197,6 +197,9 @@ myfloat ccs_table::getI(myfloat v, myfloat t) {
     myfloat deltaT0 = interpolate1D(tp[2][v_idx_coe.first], t_idx_coe) - interpolate1D(tp[0][v_idx_coe.first], t_idx_coe);
     myfloat deltaT1 = interpolate1D(tp[2][v_idx_coe.first + 1], t_idx_coe) - interpolate1D(tp[0][v_idx_coe.first + 1], t_idx_coe);
     auto ans = interpolate1D(output_cap, t_idx_coe) * 2 * deltaV * ((1 - v_idx_coe.second) / deltaT0 + v_idx_coe.second / deltaT1);
+    if (ans < 0) {
+        std::cout << "Warning: negative current in ccs_table::getI, v = " << v << ", t = " << t << ", ans = " << ans << endl;
+    }   
     return ans;
 }
 
